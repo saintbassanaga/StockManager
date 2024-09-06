@@ -1,4 +1,4 @@
-package tech.saintbassanaga.stockmanager.config.exception;
+package tech.saintbassanaga.stockmanager.configs.exception;
 
 /*
  * MIT License
@@ -23,16 +23,11 @@ package tech.saintbassanaga.stockmanager.config.exception;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
-import lombok.Getter;
-
-@Getter
-public enum ErrorStatus {
-    VALIDATION_ERROR("Validation Error"),
-    AUTHENTICATION_ERROR("Authentication Error"),
-    INTERNAL_SERVER_ERROR("Internal Server Error"),
-    NOT_FOUND_ENTITY("Entity Not Found");
-
-    ErrorStatus(String s) {
+public class CategoryNotFound extends RuntimeException {
+    public CategoryNotFound(String message) {
+        super(message);
+    }
+    public CategoryNotFound(String message, Throwable cause) {
+        super(message, cause);
     }
 }

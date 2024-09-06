@@ -1,6 +1,9 @@
-package tech.saintbassanaga.stockmanager.config.exception;
+package tech.saintbassanaga.stockmanager.configs.exception;
 
-import lombok.Getter;
+import lombok.Setter;
+
+import java.util.List;
+import java.util.Map;
 
 /*
  * MIT License
@@ -25,15 +28,28 @@ import lombok.Getter;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-@Getter
-public enum ErrorCode {
-    MISSING_FIELD("Missing Field"),
-    INVALID_FORMAT("Invalid Format"),
-    UNAUTHORIZED_ACCESS("Unauthorized Access"),
-    PRODUCT_NOT_FOUND("Product Not Found"),
-    CATEGORY_NOT_FOUND("Product Not Found");
-    ErrorCode(String s) {
 
-    }
+
+@Setter
+public class ValidationException extends RuntimeException {
+
+  public final Map<String, List<String>> fieldErrors;
+  public  final String errorCode;
+  public final String errorDescription;
+
+  /**
+   * Constructs a new runtime exception with the specified detail message.
+   * The cause is not initialized, and may subsequently be initialized by a
+   * call to {@link #initCause}.
+   *
+   * @param message the detail message. The detail message is saved for
+   *                later retrieval by the {@link #getMessage()} method.
+   */
+  public ValidationException(String message, Map<String, List<String>> fieldErrors, String errorCode, String errorDescription) {
+    super(message);
+    this.fieldErrors = fieldErrors;
+    this.errorCode = errorCode;
+    this.errorDescription = errorDescription;
+  }
+
 }
-

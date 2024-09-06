@@ -1,10 +1,9 @@
-package tech.saintbassanaga.stockmanager.config.exception;
+package tech.saintbassanaga.stockmanager.configs.exception;
 
+import lombok.Getter;
 import lombok.Setter;
-import org.springframework.http.HttpStatus;
 
 import java.util.List;
-import java.util.Map;
 
 /*
  * MIT License
@@ -29,28 +28,23 @@ import java.util.Map;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
-
+@Getter
 @Setter
-public class ValidationException extends RuntimeException {
+public class ErrorResponse {
+    private String message;
+    private int statusCode;
+    private long timestamp;
+    private ErrorCode errorCode;
+    private ErrorStatus errorDescription;
+    private List<String> validationErrors;
 
-  public final Map<String, List<String>> fieldErrors;
-  public  final String errorCode;
-  public final String errorDescription;
-
-  /**
-   * Constructs a new runtime exception with the specified detail message.
-   * The cause is not initialized, and may subsequently be initialized by a
-   * call to {@link #initCause}.
-   *
-   * @param message the detail message. The detail message is saved for
-   *                later retrieval by the {@link #getMessage()} method.
-   */
-  public ValidationException(String message, Map<String, List<String>> fieldErrors, String errorCode, String errorDescription) {
-    super(message);
-    this.fieldErrors = fieldErrors;
-    this.errorCode = errorCode;
-    this.errorDescription = errorDescription;
-  }
-
+    public ErrorResponse(String message, int statusCode, long timestamp, ErrorCode errorCode,
+                         ErrorStatus errorDescription, List<String> validationErrors) {
+        this.message = message;
+        this.statusCode = statusCode;
+        this.timestamp = timestamp;
+        this.errorCode = errorCode;
+        this.errorDescription = errorDescription;
+        this.validationErrors = validationErrors;
+    }
 }

@@ -1,4 +1,4 @@
-package tech.saintbassanaga.stockmanager.config.exception;
+package tech.saintbassanaga.stockmanager.configs.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

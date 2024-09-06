@@ -1,10 +1,4 @@
-package tech.saintbassanaga.stockmanager.config.exception;
-
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-
-import java.util.List;
+package tech.saintbassanaga.stockmanager.configs.exception;
 
 /*
  * MIT License
@@ -29,23 +23,25 @@ import java.util.List;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-@Getter
-@Setter
-public class ErrorResponse {
-    private String message;
-    private int statusCode;
-    private long timestamp;
-    private ErrorCode errorCode;
-    private ErrorStatus errorDescription;
-    private List<String> validationErrors;
 
-    public ErrorResponse(String message, int statusCode, long timestamp, ErrorCode errorCode,
-                         ErrorStatus errorDescription, List<String> validationErrors) {
-        this.message = message;
-        this.statusCode = statusCode;
-        this.timestamp = timestamp;
+import lombok.Getter;
+
+@Getter
+public class ProductNotFound extends RuntimeException {
+    private final ErrorCode errorCode;
+    private final ErrorStatus errorStatus;
+
+    /**
+     * Constructs a new runtime exception with the specified detail message.
+     * The cause is not initialized, and may subsequently be initialized by a
+     * call to {@link #initCause}.
+     *
+     * @param message the detail message. The detail message is saved for
+     *                later retrieval by the {@link #getMessage()} method.
+     */
+    public ProductNotFound(String message, ErrorCode errorCode, ErrorStatus errorStatus) {
+        super(message);
         this.errorCode = errorCode;
-        this.errorDescription = errorDescription;
-        this.validationErrors = validationErrors;
+        this.errorStatus = errorStatus;
     }
 }

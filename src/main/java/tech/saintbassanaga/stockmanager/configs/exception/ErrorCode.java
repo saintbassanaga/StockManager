@@ -1,4 +1,6 @@
-package tech.saintbassanaga.stockmanager.config.exception;
+package tech.saintbassanaga.stockmanager.configs.exception;
+
+import lombok.Getter;
 
 /*
  * MIT License
@@ -23,25 +25,15 @@ package tech.saintbassanaga.stockmanager.config.exception;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
-import lombok.Getter;
-
 @Getter
-public class ProductNotFound extends RuntimeException {
-    private final ErrorCode errorCode;
-    private final ErrorStatus errorStatus;
+public enum ErrorCode {
+    MISSING_FIELD("Missing Field"),
+    INVALID_FORMAT("Invalid Format"),
+    UNAUTHORIZED_ACCESS("Unauthorized Access"),
+    PRODUCT_NOT_FOUND("Product Not Found"),
+    CATEGORY_NOT_FOUND("Product Not Found");
+    ErrorCode(String s) {
 
-    /**
-     * Constructs a new runtime exception with the specified detail message.
-     * The cause is not initialized, and may subsequently be initialized by a
-     * call to {@link #initCause}.
-     *
-     * @param message the detail message. The detail message is saved for
-     *                later retrieval by the {@link #getMessage()} method.
-     */
-    public ProductNotFound(String message, ErrorCode errorCode, ErrorStatus errorStatus) {
-        super(message);
-        this.errorCode = errorCode;
-        this.errorStatus = errorStatus;
     }
 }
+
