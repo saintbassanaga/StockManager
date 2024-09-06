@@ -1,0 +1,18 @@
+services:
+  postgres:
+    image: 'postgres:latest'
+    container_name: postgresql_container
+    environment:
+      - 'POSTGRES_DB=stockmanagementdb'
+      - 'POSTGRES_PASSWORD=verysecret7'
+      - 'POSTGRES_USER=admin'
+    ports:
+      - '5433:5432'
+  rabbitmq:
+    image: 'rabbitmq:latest'
+    container_name: rabbitmq_container
+    environment:
+      - 'RABBITMQ_DEFAULT_PASS=secret#rabbitmq'
+      - 'RABBITMQ_DEFAULT_USER=rabbitmqUser'
+    ports:
+      - '5672'
