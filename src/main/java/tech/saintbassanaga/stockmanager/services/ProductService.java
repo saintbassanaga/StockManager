@@ -1,4 +1,4 @@
-package tech.saintbassanaga.stockmanager.models;
+package tech.saintbassanaga.stockmanager.services;
 
 /*
  * MIT License
@@ -23,38 +23,5 @@ package tech.saintbassanaga.stockmanager.models;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
-import jakarta.persistence.Column;
-import jakarta.persistence.EntityListeners;
-import jakarta.persistence.MappedSuperclass;
-import lombok.Getter;
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import java.time.LocalDateTime;
-import java.util.UUID;
-
-@Getter
-@MappedSuperclass
-@EntityListeners(AuditingEntityListener.class)
-public class AbstractAuditingEntity {
-    @CreatedDate
-    @Column(name = "created_at", updatable = false)
-    private LocalDateTime createAt;
-
-    @LastModifiedDate
-    @Column(name = "last_updated_at", insertable = false)
-    private LocalDateTime updateAt;
-
-    @CreatedBy
-    @Column(name = "created_by", updatable = false)
-    private UUID createdBy;
-
-    @LastModifiedBy
-    @Column(name = "last_modified_by", insertable = false)
-    private UUID updatedBy;
-
+public interface ProductService {
 }

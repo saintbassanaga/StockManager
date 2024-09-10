@@ -1,4 +1,11 @@
-package tech.saintbassanaga.stockmanager.models;
+package tech.saintbassanaga.stockmanager.services;
+
+import tech.saintbassanaga.stockmanager.dtos.CategoryDto;
+import tech.saintbassanaga.stockmanager.dtos.FindCategoryDto;
+import tech.saintbassanaga.stockmanager.models.Category;
+
+import java.util.List;
+import java.util.UUID;
 
 /*
  * MIT License
@@ -23,38 +30,14 @@ package tech.saintbassanaga.stockmanager.models;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+public interface CategoryService {
+    public List<FindCategoryDto> findAllCategoriesByName(String name);
 
-import jakarta.persistence.Column;
-import jakarta.persistence.EntityListeners;
-import jakarta.persistence.MappedSuperclass;
-import lombok.Getter;
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+    public List<FindCategoryDto> findAllNonEmptyCategories();
 
-import java.time.LocalDateTime;
-import java.util.UUID;
+    public FindCategoryDto addCategory(CategoryDto category);
 
-@Getter
-@MappedSuperclass
-@EntityListeners(AuditingEntityListener.class)
-public class AbstractAuditingEntity {
-    @CreatedDate
-    @Column(name = "created_at", updatable = false)
-    private LocalDateTime createAt;
+    public CategoryDto updateCategory(UUID id, Category category);
 
-    @LastModifiedDate
-    @Column(name = "last_updated_at", insertable = false)
-    private LocalDateTime updateAt;
-
-    @CreatedBy
-    @Column(name = "created_by", updatable = false)
-    private UUID createdBy;
-
-    @LastModifiedBy
-    @Column(name = "last_modified_by", insertable = false)
-    private UUID updatedBy;
-
+    public void deleteCategory(UUID categoryId);
 }

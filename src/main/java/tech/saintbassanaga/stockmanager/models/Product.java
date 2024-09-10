@@ -2,7 +2,9 @@ package tech.saintbassanaga.stockmanager.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.UUID;
@@ -11,6 +13,8 @@ import java.util.UUID;
 @Setter
 @Entity
 @Table(name = "product")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Product extends AbstractAuditingEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
