@@ -1,5 +1,7 @@
 package tech.saintbassanaga.stockmanager.configs.exception;
 
+import lombok.Getter;
+
 /*
  * MIT License
  *
@@ -23,11 +25,22 @@ package tech.saintbassanaga.stockmanager.configs.exception;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+@Getter
 public class CategoryNotFound extends RuntimeException {
-    public CategoryNotFound(String message) {
+    private final ErrorCode errorCode;
+    private final ErrorStatus errorStatus;
+
+    /**
+     * Constructs a new runtime exception with the specified detail message.
+     * The cause is not initialized, and may subsequently be initialized by a
+     * call to {@link #initCause}.
+     *
+     * @param message the detail message. The detail message is saved for
+     *                later retrieval by the {@link #getMessage()} method.
+     */
+    public CategoryNotFound(String message, ErrorCode errorCode, ErrorStatus errorStatus) {
         super(message);
-    }
-    public CategoryNotFound(String message, Throwable cause) {
-        super(message, cause);
+        this.errorCode = errorCode;
+        this.errorStatus = errorStatus;
     }
 }
