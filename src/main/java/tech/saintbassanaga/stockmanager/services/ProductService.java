@@ -1,5 +1,12 @@
 package tech.saintbassanaga.stockmanager.services;
 
+import tech.saintbassanaga.stockmanager.dtos.*;
+import tech.saintbassanaga.stockmanager.models.Category;
+import tech.saintbassanaga.stockmanager.models.Product;
+
+import java.util.List;
+import java.util.UUID;
+
 /*
  * MIT License
  *
@@ -24,4 +31,15 @@ package tech.saintbassanaga.stockmanager.services;
  * SOFTWARE.
  */
 public interface ProductService {
+
+    public List<FindProductDto> findAllProductsByName(String name);
+    public List<FindProductDto> findAllProductsByCategoryId(UUID categoryId);
+
+    public Product addProduct(ProductDto productDto);
+
+    public UpdateProductDto updateProduct(UUID id, ProductDto productDto, UUID categoryId);
+
+    public String deleteProduct(UUID categoryId);
+
+    public String deleteMultipleProducts(List<UUID> uuids);
 }

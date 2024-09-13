@@ -1,9 +1,13 @@
 package tech.saintbassanaga.stockmanager.services.impls;
 
+import org.springframework.lang.Nullable;
 import tech.saintbassanaga.stockmanager.configs.exception.CategoryNotFound;
+import tech.saintbassanaga.stockmanager.configs.exception.ErrorCode;
+import tech.saintbassanaga.stockmanager.configs.exception.ErrorStatus;
 import tech.saintbassanaga.stockmanager.dtos.CategoryDto;
 import tech.saintbassanaga.stockmanager.dtos.DtosMappers;
 import tech.saintbassanaga.stockmanager.dtos.FindCategoryDto;
+import tech.saintbassanaga.stockmanager.dtos.UpdateCategoryDto;
 import tech.saintbassanaga.stockmanager.models.Category;
 import tech.saintbassanaga.stockmanager.repositories.CategoryRepository;
 import tech.saintbassanaga.stockmanager.services.CategoryService;
@@ -52,7 +56,7 @@ public class CategoryServiceImpls implements CategoryService {
 
         return categoryRepository
                 .findCategoriesByDesignationContaining(name)
-                .orElse(Collections.emptyList())
+                .orElseThrow(()-> new CategoryNotFound("Not Found category containing "+ name + "In the dataBase", ErrorCode.CATEGORY_NOT_FOUND, ErrorStatus.NOT_FOUND_ENTITY))
                 .stream()
                 .map(dtosMappers::fromEntityToShortCategoryDto)
                 .toList();
@@ -62,7 +66,7 @@ public class CategoryServiceImpls implements CategoryService {
     public List<FindCategoryDto> findAllNonEmptyCategories() {
         return categoryRepository
                 .findCategoriesByProductsNotEmpty()
-                .orElse(Collections.emptyList())
+                .orElseThrow(  ()-> new CategoryNotFound("Not Found category In the dataBase", ErrorCode.CATEGORY_NOT_FOUND, ErrorStatus.NOT_FOUND_ENTITY))
                 .stream()
                 .map(dtosMappers::fromEntityToShortCategoryDto)
                 .toList();
@@ -75,12 +79,23 @@ public class CategoryServiceImpls implements CategoryService {
     }
 
     @Override
-    public CategoryDto updateCategory(UUID id, Category category) {
-       return null;
+    public UpdateCategoryDto updateCategory(UUID id, CategoryDto category,@Nullable UUID parentId) {
+        Category  cat = categoryRepository
+                .findById(id)
+                .orElseThrow(
+                        ()-> new CategoryNotFound("Not Found category"+ id + "In the dataBase", ErrorCode.CATEGORY_NOT_FOUND, ErrorStatus.NOT_FOUND_ENTITY)
+                );
+        cat.setDescription(category.description());
+        cat.setDesignation(category.designation());
+        if (parentId != null) {
+            cat.setParentCategory(categoryRepository.getReferenceById(parentId));
+        }
+       return dtosMappers.fromCategoryToDto(categoryRepository.save(cat));
     }
 
     @Override
     public void deleteCategory(UUID categoryId) {
-        categoryRepository.deleteById(categoryId);
+        categoryRepository
+                .deleteById(categoryId);
     }
 }

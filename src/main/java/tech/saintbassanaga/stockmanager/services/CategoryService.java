@@ -2,6 +2,7 @@ package tech.saintbassanaga.stockmanager.services;
 
 import tech.saintbassanaga.stockmanager.dtos.CategoryDto;
 import tech.saintbassanaga.stockmanager.dtos.FindCategoryDto;
+import tech.saintbassanaga.stockmanager.dtos.UpdateCategoryDto;
 import tech.saintbassanaga.stockmanager.models.Category;
 
 import java.util.List;
@@ -37,7 +38,7 @@ public interface CategoryService {
 
     public FindCategoryDto addCategory(CategoryDto category);
 
-    public CategoryDto updateCategory(UUID id, Category category);
+    public UpdateCategoryDto updateCategory(UUID id, CategoryDto category,UUID parentId);
 
     public void deleteCategory(UUID categoryId);
 }
