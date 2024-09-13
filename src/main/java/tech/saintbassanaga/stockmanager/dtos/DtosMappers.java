@@ -62,6 +62,18 @@ public class DtosMappers {
                         .collect(Collectors.toList())
         );
     }
+    /**
+     * @Function fromEntityToShortCategoryDto build news Dto
+     * @param product data provider
+     * @return full category to be displayed
+     */
+
+    public static FindProductDto fromEntityToShortProductDto(Product product){
+        return new FindProductDto(
+                product.getId(), product.getName(), product.getPrice(),
+                product.getDescription(),product.getCategory().getDesignation()
+        );
+    }
 
     /**
      * @Function fromEntityToProductDto() create formated Product for display needs.
@@ -70,11 +82,19 @@ public class DtosMappers {
      */
 
    public  ProductDto fromEntityToProductDto(Product product){
-        return new ProductDto(
-                product.getCreateAt(),product.getUpdateAt(),product.getCreatedBy(),
-                product.getUpdatedBy() ,product.getId(),product.getName(),
-                product.getPrice(), product.getDescription(),
-                product.getCategory().getDesignation());
+        return new ProductDto(product.getName(),
+                product.getPrice(), product.getDescription(),product.getCategory().getId());
+    }
+    /**
+     * @Function updateProductDto() create formated Product for display needs.
+     * @param product Product that provide data to a DTO
+     * @return built ProductDto
+     */
+
+   public UpdateProductDto updateProductDto(Product product){
+        return new UpdateProductDto(
+                product.getUpdateAt(),product.getUpdatedBy(),product.getName(),
+                product.getPrice(), product.getDescription());
     }
 
     /**
@@ -82,11 +102,10 @@ public class DtosMappers {
      * @param productDto dtos that provide data for category to be build
      * @return built Product
      */
-    public Product createProduct(CreateProductDto productDto){
+    public Product createProduct(ProductDto productDto){
         Product product = new Product();
         product.setName(productDto.name());
         product.setDescription(productDto.description());
-        product.setPrice(productDto.price());
         return product;
     }
 
@@ -99,5 +118,9 @@ public class DtosMappers {
         category.setDesignation(categoryDto.designation());
         category.setDescription(categoryDto.description());
         return category;
+    }
+
+    public UpdateCategoryDto fromCategoryToDto(Category category){
+        return new UpdateCategoryDto(category.getDesignation(), category.getDescription(), category.getParentCategory().getId() );
     }
 }

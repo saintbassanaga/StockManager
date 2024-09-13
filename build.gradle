@@ -35,6 +35,16 @@ dependencies {
 	testImplementation 'org.springframework.amqp:spring-rabbit-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	annotationProcessor 'org.projectlombok:lombok'
+	// https://mvnrepository.com/artifact/io.swagger.core.v3/swagger-annotations
+	// Swagger Annotations for OpenAPI
+	implementation group: 'io.swagger.core.v3', name: 'swagger-annotations', version: '2.2.22'
+	// Core Jakarta implementation
+	implementation group: 'io.swagger.core.v3', name: 'swagger-core-jakarta', version: '2.2.21'
+	// Swagger Integration for Jakarta
+	implementation group: 'io.swagger.core.v3', name: 'swagger-integration-jakarta', version: '2.2.21'
+
+
+
 }
 
 dependencyManagement {
