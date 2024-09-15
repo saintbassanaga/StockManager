@@ -58,7 +58,7 @@ public class GlobalExceptionHandling {
                 System.currentTimeMillis(),
                 ErrorCode.PRODUCT_NOT_FOUND,
                 ErrorStatus.NOT_FOUND_ENTITY,
-                Collections.emptyList() // No validation errors in this example
+                Collections.emptyList() // No validation errors in this ways
         );
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }

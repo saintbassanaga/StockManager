@@ -3,7 +3,7 @@ package tech.saintbassanaga.stockmanager.controllers;
 /*
  * MIT License
  *
- * Copyright (c) 2024 saintbassanaga
+ * Copyright (c) 2024 stpaul
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,29 +23,11 @@ package tech.saintbassanaga.stockmanager.controllers;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import io.swagger.v3.oas.integration.OpenApiConfigurationException;
-import io.swagger.v3.oas.integration.SwaggerConfiguration;
-import io.swagger.v3.oas.integration.api.OpenApiContext;
-import io.swagger.v3.oas.integration.GenericOpenApiContextBuilder;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.info.Info;
-import org.springframework.web.bind.annotation.GetMapping;
+
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-public class OpenApiController {
-
-    @GetMapping("/openapi.json")
-    public OpenAPI getOpenAPISpec() throws OpenApiConfigurationException {
-        SwaggerConfiguration config = new SwaggerConfiguration()
-                .openAPI(new OpenAPI()
-                        .info(new Info().title("My API").version("v1").description("API documentation")));
-
-        OpenApiContext context = new GenericOpenApiContextBuilder<>()
-                .openApiConfiguration(config)
-                .buildContext(true);
-
-        return context.read();
-    }
+@RestController("/")
+@RequestMapping
+public class ProductController {
 }
-
