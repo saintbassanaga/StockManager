@@ -31,7 +31,8 @@ public enum ErrorCode {
     INVALID_FORMAT("Invalid Format"),
     UNAUTHORIZED_ACCESS("Unauthorized Access"),
     PRODUCT_NOT_FOUND("Product Not Found"),
-    CATEGORY_NOT_FOUND("Product Not Found");
+    RESOURCE_NOT_FOUND("Resource Not Found"),
+    CATEGORY_NOT_FOUND("Category Not Found");
     ErrorCode(String s) {
 
     }

@@ -51,7 +51,7 @@ public class GlobalExceptionHandling {
 
     @ExceptionHandler(ProductNotFound.class)
     @ResponseBody
-    public ResponseEntity<ErrorResponse> handleCustomException(ProductNotFound ex) {
+    public ResponseEntity<ErrorResponse> handleProductException(ProductNotFound ex) {
         ErrorResponse errorResponse = new ErrorResponse(
                 ex.getMessage(),
                 HttpStatus.BAD_REQUEST.value(),
@@ -61,6 +61,19 @@ public class GlobalExceptionHandling {
                 Collections.emptyList() // No validation errors in this ways
         );
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler(ResourceNotFound.class)
+    @ResponseBody
+    public ResponseEntity<ErrorResponse> notFoundFile(ResourceNotFound ex) {
+        ErrorResponse errorResponse = new ErrorResponse(
+                ex.getMessage(),
+                HttpStatus.NOT_FOUND.value(),
+                System.currentTimeMillis(),
+                ErrorCode.RESOURCE_NOT_FOUND,
+                ErrorStatus.FILE_ERROR,
+                Collections.emptyList() // No validation errors in this ways
+        );
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(ValidationException.class)

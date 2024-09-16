@@ -31,7 +31,8 @@ public enum ErrorStatus {
     VALIDATION_ERROR("Validation Error"),
     AUTHENTICATION_ERROR("Authentication Error"),
     INTERNAL_SERVER_ERROR("Internal Server Error"),
-    NOT_FOUND_ENTITY("Entity Not Found");
+    NOT_FOUND_ENTITY("Entity Not Found"),
+    FILE_ERROR("Missing File");
 
     ErrorStatus(String s) {
     }

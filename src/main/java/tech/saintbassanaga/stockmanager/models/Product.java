@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @Getter
@@ -23,12 +24,12 @@ public class Product extends AbstractAuditingEntity {
     @NotNull
     private String name;
     @NotNull
-    private String price;
+    private BigDecimal price;
     @NotNull
     private String description;
 
     @ManyToOne(cascade = CascadeType.ALL, optional = false)
-    @JoinColumn(name = "category_id", nullable = false)
+    @JoinColumn(name = "category_id")
     private Category category;
 
 }

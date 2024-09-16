@@ -1,6 +1,7 @@
 package tech.saintbassanaga.stockmanager.services.impls;
 
 import org.springframework.lang.Nullable;
+import org.springframework.stereotype.Service;
 import tech.saintbassanaga.stockmanager.configs.exception.CategoryNotFound;
 import tech.saintbassanaga.stockmanager.configs.exception.ErrorCode;
 import tech.saintbassanaga.stockmanager.configs.exception.ErrorStatus;
@@ -40,10 +41,12 @@ import java.util.UUID;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
+
+@Service
 public class CategoryServiceImpls implements CategoryService {
 
     private final CategoryRepository categoryRepository;
-
     private final DtosMappers dtosMappers;
 
     public CategoryServiceImpls(CategoryRepository categoryRepository, DtosMappers dtosMappers) {
@@ -53,10 +56,10 @@ public class CategoryServiceImpls implements CategoryService {
 
     @Override
     public List<FindCategoryDto> findAllCategoriesByName(String name) {
-
-        return categoryRepository
-                .findCategoriesByDesignationContaining(name)
-                .orElseThrow(()-> new CategoryNotFound("Not Found category containing "+ name + "In the dataBase", ErrorCode.CATEGORY_NOT_FOUND, ErrorStatus.NOT_FOUND_ENTITY))
+        return categoryRepository.findCategoriesByDesignationContaining(name)
+                .orElseThrow(() -> new CategoryNotFound("Not Found category containing " + name,
+                        ErrorCode.CATEGORY_NOT_FOUND,
+                        ErrorStatus.NOT_FOUND_ENTITY))
                 .stream()
                 .map(dtosMappers::fromEntityToShortCategoryDto)
                 .toList();
@@ -64,9 +67,10 @@ public class CategoryServiceImpls implements CategoryService {
 
     @Override
     public List<FindCategoryDto> findAllNonEmptyCategories() {
-        return categoryRepository
-                .findCategoriesByProductsNotEmpty()
-                .orElseThrow(  ()-> new CategoryNotFound("Not Found category In the dataBase", ErrorCode.CATEGORY_NOT_FOUND, ErrorStatus.NOT_FOUND_ENTITY))
+        return categoryRepository.findCategoriesByProductsNotEmpty()
+                .orElseThrow(() -> new CategoryNotFound("No non-empty categories found",
+                        ErrorCode.CATEGORY_NOT_FOUND,
+                        ErrorStatus.NOT_FOUND_ENTITY))
                 .stream()
                 .map(dtosMappers::fromEntityToShortCategoryDto)
                 .toList();
@@ -74,28 +78,40 @@ public class CategoryServiceImpls implements CategoryService {
 
     @Override
     public FindCategoryDto addCategory(CategoryDto categoryDto) {
-        return dtosMappers.fromEntityToShortCategoryDto(
-                categoryRepository.save(dtosMappers.createCategory(categoryDto)));
+        Category category = dtosMappers.createCategory(categoryDto);
+        Category savedCategory = categoryRepository.save(category);
+        return dtosMappers.fromEntityToShortCategoryDto(savedCategory);
     }
 
     @Override
-    public UpdateCategoryDto updateCategory(UUID id, CategoryDto category,@Nullable UUID parentId) {
-        Category  cat = categoryRepository
-                .findById(id)
-                .orElseThrow(
-                        ()-> new CategoryNotFound("Not Found category"+ id + "In the dataBase", ErrorCode.CATEGORY_NOT_FOUND, ErrorStatus.NOT_FOUND_ENTITY)
-                );
-        cat.setDescription(category.description());
-        cat.setDesignation(category.designation());
+    public UpdateCategoryDto updateCategory(UUID id, CategoryDto categoryDto, @Nullable UUID parentId) {
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> new CategoryNotFound("Category with ID " + id + " not found",
+                        ErrorCode.CATEGORY_NOT_FOUND,
+                        ErrorStatus.NOT_FOUND_ENTITY));
+
+        category.setDescription(categoryDto.description());
+        category.setDesignation(categoryDto.designation());
+
         if (parentId != null) {
-            cat.setParentCategory(categoryRepository.getReferenceById(parentId));
+            Category parentCategory = categoryRepository.findById(parentId)
+                    .orElseThrow(() -> new CategoryNotFound("Parent category with ID " + parentId + " not found",
+                            ErrorCode.CATEGORY_NOT_FOUND,
+                            ErrorStatus.NOT_FOUND_ENTITY));
+            category.setParentCategory(parentCategory);
         }
-       return dtosMappers.fromCategoryToDto(categoryRepository.save(cat));
+
+        Category updatedCategory = categoryRepository.save(category);
+        return dtosMappers.fromCategoryToDto(updatedCategory);
     }
 
     @Override
     public void deleteCategory(UUID categoryId) {
-        categoryRepository
-                .deleteById(categoryId);
+        if (!categoryRepository.existsById(categoryId)) {
+            throw new CategoryNotFound("Category with ID " + categoryId + " not found",
+                    ErrorCode.CATEGORY_NOT_FOUND,
+                    ErrorStatus.NOT_FOUND_ENTITY);
+        }
+        categoryRepository.deleteById(categoryId);
     }
 }

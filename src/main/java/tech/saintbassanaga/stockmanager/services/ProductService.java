@@ -4,6 +4,7 @@ import tech.saintbassanaga.stockmanager.dtos.*;
 import tech.saintbassanaga.stockmanager.models.Category;
 import tech.saintbassanaga.stockmanager.models.Product;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.UUID;
 
@@ -35,11 +36,11 @@ public interface ProductService {
     public List<FindProductDto> findAllProductsByName(String name);
     public List<FindProductDto> findAllProductsByCategoryId(UUID categoryId);
 
-    public Product addProduct(ProductDto productDto);
+    public Product addProduct(ProductDto productDto) throws FileNotFoundException;
 
-    public UpdateProductDto updateProduct(UUID id, ProductDto productDto, UUID categoryId);
+    public UpdateProductDto updateProduct(UUID id, ProductDto productDto, UUID categoryId) throws FileNotFoundException;
 
-    public String deleteProduct(UUID categoryId);
+    public String deleteProduct(UUID categoryId) throws FileNotFoundException;
 
-    public String deleteMultipleProducts(List<UUID> uuids);
+    public String deleteMultipleProducts(List<UUID> uuids) throws FileNotFoundException;
 }

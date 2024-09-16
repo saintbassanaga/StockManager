@@ -1,5 +1,6 @@
 package tech.saintbassanaga.stockmanager.dtos;
 
+import org.springframework.stereotype.Component;
 import tech.saintbassanaga.stockmanager.models.Category;
 import tech.saintbassanaga.stockmanager.models.Product;
 
@@ -28,6 +29,8 @@ import java.util.stream.Collectors;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
+@Component
 public class DtosMappers {
 
     /**
@@ -68,7 +71,7 @@ public class DtosMappers {
      * @return full category to be displayed
      */
 
-    public static FindProductDto fromEntityToShortProductDto(Product product){
+    public FindProductDto fromEntityToShortProductDto(Product product){
         return new FindProductDto(
                 product.getId(), product.getName(), product.getPrice(),
                 product.getDescription(),product.getCategory().getDesignation()
@@ -106,6 +109,7 @@ public class DtosMappers {
         Product product = new Product();
         product.setName(productDto.name());
         product.setDescription(productDto.description());
+        product.setPrice(productDto.price());
         return product;
     }
 
@@ -121,6 +125,13 @@ public class DtosMappers {
     }
 
     public UpdateCategoryDto fromCategoryToDto(Category category){
-        return new UpdateCategoryDto(category.getDesignation(), category.getDescription(), category.getParentCategory().getId() );
+        return new UpdateCategoryDto(category.getDesignation(), category.getDescription());
+    }
+
+    public Category updateCategory(UpdateCategoryDto categoryDto){
+        Category category = new Category();
+        category.setDesignation(categoryDto.designation());
+        category.setDescription(categoryDto.description());
+        return category;
     }
 }

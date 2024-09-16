@@ -28,6 +28,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -39,6 +40,7 @@ import java.util.UUID;
 
 @Getter
 @MappedSuperclass
+@Setter
 @EntityListeners(AuditingEntityListener.class)
 public class AbstractAuditingEntity {
     @CreatedDate
